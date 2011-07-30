@@ -1,5 +1,5 @@
 This put-selector/put module/package provides a high-performance, lightweight 
-(~1.5KB minified, ~0.5KB gzipped with other code) function for creating 
+(~1.5KB minified, ~0.6KB gzipped with other code) function for creating 
 and manipulating DOM elements with succinct, elegant, familiar CSS selector-based 
 syntax. The single function from the module creates or updates DOM elements by providing
 a series of arguments that can include reference elements, selector strings, properties,
@@ -94,7 +94,7 @@ we want to create sibling of the reference element:
 	newSpan = put(reference, "+span");
 
 Would create a new span element directly after the reference element (reference and 
-newSpan would be siblings.) We can also use - operator to indicate that the new element
+newSpan would be siblings.) We can also use the "-" operator to indicate that the new element
 should go before: 
 
 	newSpan = put(reference, "-span");
