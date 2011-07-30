@@ -1,5 +1,5 @@
 This put-selector/put module/package provides a high-performance, lightweight 
-(~1.5KB minified, ~0.6KB gzipped with other code) function for creating 
+(~1.5KB minified, ~0.7KB gzipped with other code) function for creating 
 and manipulating DOM elements with succinct, elegant, familiar CSS selector-based 
 syntax. The single function from the module creates or updates DOM elements by providing
 a series of arguments that can include reference elements, selector strings, properties,
@@ -63,6 +63,11 @@ And these can be combined also. For example, we could set the id and an attribut
 one statement:
 
 	put(element, "#id[tabIndex=2]");
+
+One can also remove classes from elements by using the "!" operator in place of a ".". 
+To remove the "foo" class from an element, we could write:
+
+	put(element, "!foo");
 
 Text Content
 -----------
