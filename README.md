@@ -9,7 +9,8 @@ on modern browsers to ensure maximum speed.
 Installation/Usage
 ----------------
 
-The put.js module can be simply downloaded and used a plain script or as an AMD module.
+The put.js module can be simply downloaded and used a plain script (creates a global 
+put() function) or as an AMD module (exports the put() function).
 It can also be installed with <a href="https://github.com/kriszyp/cpm">CPM</a>:
 
 	cpm install put-selector
