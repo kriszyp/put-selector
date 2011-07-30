@@ -194,3 +194,11 @@ Which is identical to writing (all the properties are set using direct property 
 	newDiv.tabIndex = 1;
 	newDiv.innerHTML = "Hello, World";
 
+Deleting Elements
+--------------
+
+To delete an element, we can simply use the "!" operator by itself as the entire selector:
+
+	put(elementToDelete, "!");
+
+This will destroy the element from the DOM (using parent innerHTML destruction that reduces memory leaks in IE). 
