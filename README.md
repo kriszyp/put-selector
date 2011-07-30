@@ -69,6 +69,20 @@ To remove the "foo" class from an element, we could write:
 
 	put(element, "!foo");
 
+We can also use the "!" operator to remove attributes as well. Prepending an attribute name
+with "!" within brackets will remove it. To remove the "role" attribute, we could write:
+
+	put(element, "[!role]");
+
+Deleting Elements
+--------------
+
+To delete an element, we can simply use the "!" operator by itself as the entire selector:
+
+	put(elementToDelete, "!");
+
+This will destroy the element from the DOM (using parent innerHTML destruction that reduces memory leaks in IE). 
+
 Text Content
 -----------
 
@@ -193,12 +207,3 @@ Which is identical to writing (all the properties are set using direct property 
 	newDiv = put(parent, "div");
 	newDiv.tabIndex = 1;
 	newDiv.innerHTML = "Hello, World";
-
-Deleting Elements
---------------
-
-To delete an element, we can simply use the "!" operator by itself as the entire selector:
-
-	put(elementToDelete, "!");
-
-This will destroy the element from the DOM (using parent innerHTML destruction that reduces memory leaks in IE). 
