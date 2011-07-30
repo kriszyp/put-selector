@@ -1,0 +1,20 @@
+{
+  "name": "put-selector",
+  "author": "Kris Zyp",
+  "description": "A high-performance, lightweight function for creating and manipulating DOM elements with succinct, elegant, familiar CSS selector-based syntax",
+  "licenses": [
+     {
+         "type": "AFLv2.1",
+         "url": "http://trac.dojotoolkit.org/browser/dojo/trunk/LICENSE#L43"
+     },
+     {
+         "type": "BSD",
+         "url": "http://trac.dojotoolkit.org/browser/dojo/trunk/LICENSE#L13"
+     }
+  ],
+  "directories": {
+    "lib": "."
+  },
+  "main": "./put",
+  "icon": "http://packages.dojofoundation.org/images/xstyle.jpg"
+}
