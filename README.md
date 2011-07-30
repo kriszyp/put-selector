@@ -22,7 +22,7 @@ Type selector syntax (no prefix) can be used to indicate the type of element to 
 	put("div");
 	
 will create a new &lt;div> element. We can put a reference element in front of the selector
-string and the &div> will be appended as a child to the provided element: 
+string and the &lt;div> will be appended as a child to the provided element: 
 
 	put(parent, "div"); 
 	
