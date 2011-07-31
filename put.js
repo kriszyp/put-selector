@@ -101,7 +101,7 @@ define([], function(){
 								if(combinator == ","){
 									// comma combinator, start a new selector
 									referenceElement = topReferenceElement;
-								}else{
+								}else if(current){
 									// else descendent or child selector (doesn't matter, treated the same),
 									referenceElement = current;
 								}

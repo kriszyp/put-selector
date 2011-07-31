@@ -1,7 +1,3 @@
-var parent = put("div.parent span.first $+span.second $<", "inside first", "inside second");
-console.assert(parent.firstChild.innerHTML, "inside first");
-console.assert(parent.lastChild.innerHTML, "inside second");
-
 var div = put("div");
 console.assert(div.tagName.toLowerCase() == "div");
 
@@ -33,6 +29,10 @@ console.assert(span4.getAttribute('name') == "span4");
 put(span2, "+", span3, "+", span4);
 console.assert(span2.nextSibling == span3);
 console.assert(span3.nextSibling == span4);
+
+var parent = put("div.parent span.first $ + span.second $<", "inside first", "inside second");
+console.assert(parent.firstChild.innerHTML, "inside first");
+console.assert(parent.lastChild.innerHTML, "inside second");
 
 put(span3, "!"); // destroy span3
 console.assert(span2.nextSibling != span3); // make sure span3 is gone
