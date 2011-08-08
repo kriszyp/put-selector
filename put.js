@@ -66,9 +66,10 @@ define([], function(){
 					nextSibling = null;
 				}else{
 					// an object hash
-					for(var i in argument){
-						current[i] = argument[i];
-					}				
+				  var argumentOwnProperties = Object.keys(argument);
+				  argumentOwnProperties.forEach( function copyValues(key) {
+				    current[key] = argument[key];
+				  });
 				}
 			}else if(lastArgWasSelector){
 				// a text node should be created
