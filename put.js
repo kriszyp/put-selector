@@ -138,7 +138,7 @@ define([], function(){
 								if(argument == "!"){
 									// special signal to delete this element
 									// use the ol' innerHTML trick to get IE to do some cleanup
-									put("div").appendChild(current).innerHTML = "";
+									put("div", current, '<').innerHTML = "";
 								}else{
 									// we already have removed the class, just need to trim
 									removed = removed.substring(1, removed.length - 1);
