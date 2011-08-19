@@ -168,8 +168,8 @@ define([], function(){
 				if(leftoverCharacters){
 					throw new SyntaxError("Unexpected char " + leftoverCharacters + " in " + argument);
 				}
-				returnValue = current || referenceElement;
 				insertLastElement();
+				referenceElement = returnValue = current || referenceElement;
 			}
 		}
 		if(topReferenceElement && fragment){
