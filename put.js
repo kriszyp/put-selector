@@ -160,7 +160,7 @@ define([], function(){
 							// handle the special case of setAttribute not working in old IE
 							current.style.cssText = attrValue;
 						}else{
-							current[attrName.charAt(0) == "!" ? (attrName = attrName.substring(1)) && 'removeAttribute' : 'setAttribute'](attrName, attrValue || attrName);
+							current[attrName.charAt(0) == "!" ? (attrName = attrName.substring(1)) && 'removeAttribute' : 'setAttribute'](attrName, attrValue == '' ? attrName : attrValue);
 						}
 					}
 					return '';
