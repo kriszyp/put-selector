@@ -207,3 +207,14 @@ Which is identical to writing (all the properties are set using direct property 
 	newDiv = put(parent, "div");
 	newDiv.tabIndex = 1;
 	newDiv.innerHTML = "Hello, World";
+
+Proper Creation of Inputs
+-------------------------
+
+Older versions of Internet Explorer have a bug in assigning a "name" attribute to input after it
+has been created, and requires a special creation technique. The put() function handles
+this for you as long as you specify the name of the input in the property assignment
+object after the selector string. For example, this input creation will properly work
+on all browsers, including IE:
+
+	newInput = put("input[type=checkbox]", {name: "works"});
