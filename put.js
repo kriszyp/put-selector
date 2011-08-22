@@ -12,8 +12,9 @@ define([], function(){
 					
 	var selectorParse = /(([-+])|[,<> ])?\s*(\.|!|#)?([-\w$]+)?(?:\[([^\]=]+)=?['"]?([^\]'"]*)['"]?\])?/g,
 		fragmentFasterHeuristic = /[-+,> ]/, // if it has any of these combinators, it is probably going to be faster with a document fragment 	
-		doc = document, undefined;
+		doc, undefined;
 	try{
+		doc = document;
 		var ieCreateElement = 1;
 		put('i', {name:'a'});
 	}catch(e){
@@ -23,7 +24,7 @@ define([], function(){
 		element.appendChild(doc.createTextNode(text));
 	}
 	function put(topReferenceElement){
-		var fragment, returnValue, lastArgWasSelector, nextSibling, referenceElement, current,
+		var fragment, returnValue, lastSelectorArg, nextSibling, referenceElement, current,
 			args = arguments;
 		function insertLastElement(){
 			// we perform insertBefore actions after the element is fully created to work properly with 
@@ -47,7 +48,6 @@ define([], function(){
 			var argument = args[i];
 			if(typeof argument == "object"){
 				if(argument.nodeType){
-					lastArgWasSelector = false;
 					current = argument;
 					insertLastElement();
 					referenceElement = argument;
@@ -58,7 +58,7 @@ define([], function(){
 						current[key] = argument[key];
 					}				
 				}
-			}else if(lastArgWasSelector){
+			}else if(lastSelectorArg === i - 1){
 				// a text node should be created
 				// take a scalar value, use createTextNode so it is properly escaped
 				// createTextNode is generally several times faster than doing an escaped innerHTML insertion: http://jsperf.com/createtextnode-vs-innerhtml/2
@@ -68,7 +68,7 @@ define([], function(){
 					// if we are starting with a selector, there is no top element
 					topReferenceElement = null;
 				}
-				lastArgWasSelector = true;
+				lastSelectorArg = i;
 				var leftoverCharacters = argument.replace(selectorParse, function(t, combinator, siblingCombinator, prefix, value, attrName, attrValue){
 					if(combinator){
 						// insert the last current object
@@ -179,8 +179,18 @@ define([], function(){
 		return returnValue;
 	}
 	put.defaultTag = "div";
+	put.setDocument = function(document, newFragmentHeuristic){
+		doc = document;
+		fragmentFasterHeuristic = newFragmentHeuristic || fragmentFasterHeuristic;
+	}
 	return put;
 });
 })(typeof define == "undefined" ? function(deps, factory){
-	put = factory();
+	if(typeof module == "undefined"){
+		// plain script
+		put = factory();
+	}else{
+		// CommonJS, probably NodeJS
+		module.exports = factory();
+	}
 } : define);
