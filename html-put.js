@@ -1,14 +1,7 @@
 var put = require('./put');
 put.indentation= '  ';
 function Element(tag){
-	this.tag = tag;/*
-	if(tag){
-		this.push((tag == 'html' ? '<!DOCTYPE html>\n<' 
-			: '<') + tag, new NamedNodeMap(), '>', new NodeList(), ('</' + tag + '>'));
-	}else{
-		// a fragment, just get the indexes right
-		this.push('', '', '', new NodeList());
-	}	*/
+	this.tag = tag;
 }
 var prototype = Element.prototype = [];
 prototype.nodeType = 1;
@@ -27,15 +20,6 @@ prototype.toString = function(){
 		currentIndentation = lastIndentation;
 		return html;
 	}
-/*	if(this.toStringed){
-		// undo last toString modificatiosn
-	}
-	var className = this.className; 
-	if(className){
-		this.setAttribute("class", className);
-	}
-	var html = this.join('');
-	this.toStringed = true;*/
 	return (this.tag == 'html' ? '<!DOCTYPE html>\n<html' : '<' + this.tag) +
 		(this.attributes ? this.attributes.join('') : '') + 
 		(this.className ? ' class="' + this.className + '"' : '') +  
@@ -82,18 +66,6 @@ prototype.appendChild = function(child, reference){
 	}
 	children.push(child);
 };
-function NamedNodeMap(){
-}
-NamedNodeMap.prototype = [];
-NamedNodeMap.prototype.toString = function(){
-	return this.join('');
-};	
-function NodeList(){
-}
-NodeList.prototype = [];
-NodeList.prototype.toString = function(){
-	return this.join('');
-};	
 
 var lessThanRegex = /</g, ampersandRegex = /&/g;
 put.setDocument({
@@ -102,9 +74,6 @@ put.setDocument({
 	},
 	createTextNode: function(value){
 		return (typeof value == 'string' ? value : ('' + value)).replace(lessThanRegex, "&lt;").replace(ampersandRegex, "&amp;");
-	},
-	createDocumentFragment: function(){
-		return new Element();
 	}
 }, { // fragment heuristic
 	test: function(){
