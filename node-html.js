@@ -3,6 +3,7 @@ var put;
 function Element(tag){
 	this.tag = tag;
 }
+// create set of elements with an empty content model, so we now to skip their closing tag
 var emptyElements = {};
 ["base", "link", "meta", "hr", "br", "wbr", "img", "embed", "param", "source", "track", "area", "col", "input", "keygen", "command"].forEach(function(tag){
 	emptyElements[tag] = true;
@@ -10,10 +11,10 @@ var emptyElements = {};
 var prototype = Element.prototype = [];
 var currentIndentation = '';
 prototype.nodeType = 1;
-prototype.toString = function(){
+prototype.toString = function(noClose){
 	var tag = this.tag;
 	var emptyElement = emptyElements[tag];
-	if(put.indentation){
+	if(put.indentation && !noClose){
 		// using pretty printing with indentation
 		var lastIndentation = currentIndentation;
 		currentIndentation += put.indentation;
@@ -21,8 +22,8 @@ prototype.toString = function(){
 			(this.attributes ? this.attributes.join('') : '') + 
 			(this.className ? ' class="' + this.className + '"' : '') + '>' +  
 			(this.children ? this.children.join('') : '') +  
-			(!this.mixed && !emptyElement  && this.children ? '\n' +lastIndentation : '') + 
-			(emptyElement ? '' : ('</' + tag + '>')); 
+			(!this.mixed && !emptyElement  && this.children ? '\n' +lastIndentation : '') +
+			(emptyElement ? '' : ('</' + tag + '>'));
 		
 		currentIndentation = lastIndentation;
 		return html;
@@ -31,13 +32,60 @@ prototype.toString = function(){
 		(this.attributes ? this.attributes.join('') : '') + 
 		(this.className ? ' class="' + this.className + '"' : '') + '>' +  
 		(this.children ? this.children.join('') : '') +  
-		(emptyElement ? '' : ('</' + tag + '>')); 
+		((noClose || emptyElement) ? '' : ('</' + tag + '>')); 
 };
-
+prototype.sendTo = function(stream){
+	var active = this;
+	var streamIndentation = '';
+	function pipe(element){
+		// TODO: Perhaps consider buffering if it is any faster and having a non-indentation version that is faster
+		returnTo(this);
+		var tag = element.tag;
+		if(element.tag){
+			if(put.indentation){
+				stream.write('\n' + streamIndentation + element.toString(true));
+				streamIndentation += put.indentation;
+			}else{
+				stream.write(element.toString(true));
+			}
+			this.children = true;
+			active = element;
+			element.pipe = pipe;
+		}else{
+			stream.write(element.toString());
+		}
+	}
+	function returnTo(element){
+		while(active != element){
+			var tag = active.tag;
+			var emptyElement = emptyElements[tag];
+			if(put.indentation){
+				streamIndentation = streamIndentation.slice(put.indentation.length);
+				if(!emptyElement){
+					stream.write(((active.mixed || !active.children) ? '' : '\n' + streamIndentation) + '</' + tag + '>');	
+				}
+			}else if(!emptyElement){
+				stream.write('</' + tag + '>');
+			}
+			active = active.parentNode;
+		}		
+	}
+	pipe.call(this, this);
+	// add on end() function to close all the tags and close the stream
+	this.end = function(leaveStreamOpen){
+		returnTo(this);
+		stream[leaveStreamOpen ? 'write' : 'end']('\n</' + this.tag + '>');
+	}
+	return this;
+};
 prototype.children = false;
 prototype.attributes = false;
 prototype.insertBefore = function(child, reference){
 	child.parentNode = this;
+	if(this.pipe){
+		return this.pipe(child);
+		//return this.s(child);
+	}
 	var children = this.children;
 	if(!children){
 		children = this.children = [];
@@ -58,13 +106,16 @@ prototype.insertBefore = function(child, reference){
 	}
 	children.push(child);
 };
-prototype.appendChild = function(child, reference){
-	var children = this.children; 
-	if(!children){
-		children = this.children = [];
-	}
+prototype.appendChild = function(child){
 	if(typeof child == "string"){
 		this.mixed = true;
+	}
+	if(this.pipe){
+		return this.pipe(child);
+	}
+	var children = this.children;
+	if(!children){
+		children = this.children = [];
 	}
 	children.push(child);
 };
@@ -94,6 +145,9 @@ Object.defineProperties(prototype, {
 		},
 		set: function(value){
 			this.mixed = true;
+			if(this.pipe){
+				return this.pipe(value);
+			}
 			this.children = [value];
 		}
 	}

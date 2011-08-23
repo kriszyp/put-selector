@@ -13,5 +13,25 @@ exports.testPage = function() {
 	put(content, 'div.right', {innerHTML: 'Right <b>text</b>'});
 	assert.equal(page.toString(), '<!DOCTYPE html>\n<html><head><script src=\"test.js\"></script><link href=\"test.css\"><link href=\"test2.css\"></head><body><div class=\"header\">Hello World</div><div class=\"content\"><div class=\"left\">Left</div><div class=\"right\">Right <b>text</b></div></div></body></html>');
 };
+exports.testStream = function() {
+	//put.indentation = '  ';
+	var output = '';
+	var stream = {
+		write: function(str){
+			output += str;
+		},
+		end: function(str){
+			output += str;
+		}
+	}
+	var page = put('html').sendTo(stream);
+	put(page, 'head script[src=test.js]+link[href=test.css]+link[href=test2.css]');
+	var content = put(page, 'body div.header $\
+			+div.content', 'Hello World');
+	put(content, 'div.left', 'Left');
+	put(content, 'div.right', {innerHTML: 'Right <b>text</b>'});
+	page.end();
+	assert.equal(output, '<!DOCTYPE html>\n<html><head><script src=\"test.js\"></script><link href=\"test.css\"><link href=\"test2.css\"></head><body><div class=\"header\">Hello World</div><div class=\"content\"><div class=\"left\">Left</div><div class=\"right\">Right <b>text</b></div></div></body>\n</html>');
+};
 if (require.main === module)
     require("patr/runner").run(exports);
