@@ -1,7 +1,8 @@
 This put-selector/put module/package provides a high-performance, lightweight 
 (~1.5KB minified, ~0.7KB gzipped with other code) function for creating 
 and manipulating DOM elements with succinct, elegant, familiar CSS selector-based 
-syntax. The single function from the module creates or updates DOM elements by providing
+syntax across all browsers and platforms (including HTML generation on NodeJS). 
+The single function from the module creates or updates DOM elements by providing
 a series of arguments that can include reference elements, selector strings, properties,
 and text content. The put() function utilizes the proven techniques for optimal performance
 on modern browsers to ensure maximum speed.
@@ -10,17 +11,27 @@ Installation/Usage
 ----------------
 
 The put.js module can be simply downloaded and used a plain script (creates a global 
-put() function) or as an AMD module (exports the put() function).
+put() function), as an AMD module (exports the put() function), or as a NodeJS (or any
+server side JS environment) module.
 It can also be installed with <a href="https://github.com/kriszyp/cpm">CPM</a>:
 
 	cpm install put-selector
+
+and then reference the "put-selector" module as a dependency.
+or installed for Node with NPM:
+
+	npm install put-selector
+
+and then:
+
+	put = require("put-selector");
 
 Creating Elements
 ----------------
 
 Type selector syntax (no prefix) can be used to indicate the type of element to be created. For example:
 
-	put("div");
+	newDiv = put("div");
 	
 will create a new &lt;div> element. We can put a reference element in front of the selector
 string and the &lt;div> will be appended as a child to the provided element: 
@@ -207,6 +218,34 @@ Which is identical to writing (all the properties are set using direct property 
 	newDiv = put(parent, "div");
 	newDiv.tabIndex = 1;
 	newDiv.innerHTML = "Hello, World";
+
+NodeJS/Server Side HTML Generation
+-------------------------
+
+While the put() function directly creates DOM elements in the browser, the put() function
+can be used to generate HTML on the server, in NodeJS. When no DOM is available, 
+a fast lightweight pseudo-DOM is created that can generate HTML as a string.
+The API is still the same, but the put() function returns pseudo-elements with a 
+toString() method that can be called to return the HTML. For example:
+
+	put("div.test").toString() -> '<div class="test"></div>' 
+
+We could create a full page in NodeJS:
+
+	var http = require('http');
+	var put = require('put-selector');
+	http.createServer(function (req, res) {
+		res.writeHead(200, {'Content-Type': 'text/html'});
+		var page = put('html');
+		put(page, 'head script[src=app.js]');
+		put(page, 'body div.content', 'Hello, World');
+		res.end(page.toString());
+	}).listen(80);
+
+On the server, there are some limitations to put(). The server side DOM emulation
+is designed to be very fast and light and therefore omits much of the standard DOM
+functionality, and only what is needed for put() is implemented. Elements can
+not be moved or removed. However, DOM creation and updating is still fully supported.
 
 Proper Creation of Inputs
 -------------------------
