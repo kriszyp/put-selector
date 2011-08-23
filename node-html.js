@@ -61,6 +61,9 @@ prototype.sendTo = function(stream){
 	function returnTo(element){
 		var output = '';
 		while(active != element){
+			if(!active){
+				throw new Error("Can not add to an element that has already been streamed");
+			}
 			var tag = active.tag;
 			var emptyElement = emptyElements[tag];
 			if(put.indentation){
