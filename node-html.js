@@ -39,7 +39,10 @@ prototype.sendTo = function(stream){
 	var streamIndentation = '';
 	function pipe(element){
 		// TODO: Perhaps consider buffering if it is any faster and having a non-indentation version that is faster
-		returnTo(this);
+		var closing = returnTo(this);
+		if(closing){
+			stream.write(closing);
+		}
 		var tag = element.tag;
 		if(element.tag){
 			if(put.indentation){
@@ -56,25 +59,26 @@ prototype.sendTo = function(stream){
 		}
 	}
 	function returnTo(element){
+		var output = '';
 		while(active != element){
 			var tag = active.tag;
 			var emptyElement = emptyElements[tag];
 			if(put.indentation){
 				streamIndentation = streamIndentation.slice(put.indentation.length);
 				if(!emptyElement){
-					stream.write(((active.mixed || !active.children) ? '' : '\n' + streamIndentation) + '</' + tag + '>');	
+					output += ((active.mixed || !active.children) ? '' : '\n' + streamIndentation) + '</' + tag + '>';	
 				}
 			}else if(!emptyElement){
-				stream.write('</' + tag + '>');
+				output += '</' + tag + '>';
 			}
 			active = active.parentNode;
-		}		
+		}
+		return output;		
 	}
 	pipe.call(this, this);
 	// add on end() function to close all the tags and close the stream
 	this.end = function(leaveStreamOpen){
-		returnTo(this);
-		stream[leaveStreamOpen ? 'write' : 'end']('\n</' + this.tag + '>');
+		stream[leaveStreamOpen ? 'write' : 'end'](returnTo(this) + '\n</' + this.tag + '>');
 	}
 	return this;
 };
