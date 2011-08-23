@@ -1,5 +1,6 @@
 (function(define){
 define([], function(){
+"use strict";
 	// module:
 	//		put-selector/put
 	// summary:
@@ -32,7 +33,7 @@ define([], function(){
 			//	to be set before it is attached to a parent.
 			// We also handle top level as a document fragment actions in a complex creation 
 			// are done on a detached DOM which is much faster
-			// Alackinglso if there is a parse error, we generally error out before doing any DOM operations (more atomic) 
+			// Also if there is a parse error, we generally error out before doing any DOM operations (more atomic) 
 			if(current && referenceElement && current != referenceElement){
 				(referenceElement == topReferenceElement &&
 					// top level, may use fragment for faster access 
@@ -186,11 +187,12 @@ define([], function(){
 	return put;
 });
 })(typeof define == "undefined" ? function(deps, factory){
-	if(typeof module == "undefined"){
-		// plain script
-		put = factory();
+	if(typeof window == "undefined"){
+		// server side JavaScript, probably (hopefully) NodeJS
+		require("./node-html")(module, factory);
+//		module.exports = factory();
 	}else{
-		// CommonJS, probably NodeJS
-		module.exports = factory();
+		// plain script in a browser
+		put = factory();
 	}
 } : define);
