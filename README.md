@@ -233,7 +233,9 @@ generated elements to a stream on the fly. For example:
 
 To use put() streaming, we create and element and call sendTo with a target stream.
 In streaming mode, the elements are written to the stream as they are added to the
-parent DOM structure. Once an element is added to the streamed DOM structure,
+parent DOM structure. This approach is much more efficient because very little
+needs to be kept in memory, the HTML can be immediately flushed to the network as it is created.
+Once an element is added to the streamed DOM structure,
 it is immediately sent to the stream, and it's attributes and classes can no longer be
 altered. There are two methods on elements available for streaming purposes:
 
