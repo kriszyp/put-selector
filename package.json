@@ -12,6 +12,12 @@
          "url": "http://trac.dojotoolkit.org/browser/dojo/trunk/LICENSE#L13"
      }
   ],
+ "maintainers": [
+  	{
+  		"name": "Kris Zyp",
+  		"email": "kriszyp@gmail.com"
+  	}
+  ],
   "directories": {
     "lib": "."
   },
