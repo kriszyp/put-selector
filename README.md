@@ -220,7 +220,7 @@ Which is identical to writing (all the properties are set using direct property 
 	newDiv.innerHTML = "Hello, World";
 
 NodeJS/Server Side HTML Generation
--------------------------
+----------------------------
 
 While the put() function directly creates DOM elements in the browser, the put() function
 can be used to generate HTML on the server, in NodeJS. When no DOM is available, 
@@ -255,7 +255,7 @@ how we could create a full page in NodeJS that is streamed to the response:
 	http.createServer(function (req, res) {
 		res.writeHead(200, {'Content-Type': 'text/html'});
 		var page = put('html').sendTo(res); // create an HTML page, and pipe to the response 
-		put(page, 'head script[src=app.js]'); // each are sent immediately
+		put(page, 'head script[src=app.js]'); // each element is sent immediately
 		put(page, 'body div.content', 'Hello, World');
 		page.end(); // close all the tags, and end the stream
 	}).listen(80);
@@ -264,7 +264,9 @@ On the server, there are some limitations to put(). The server side DOM emulatio
 is designed to be very fast and light and therefore omits much of the standard DOM
 functionality, and only what is needed for put() is implemented. Elements can
 not be moved or removed. DOM creation and updating is still supported in string
-generation mode, but only creation is supported in streaming mode.
+generation mode, but only creation is supported in streaming mode. Also, setting 
+object properties is mostly ignored (because only attributes are part of HTML), except
+you can set the innerHTML of an element. 
 
 Proper Creation of Inputs
 -------------------------
