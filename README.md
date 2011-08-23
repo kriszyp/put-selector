@@ -224,28 +224,35 @@ NodeJS/Server Side HTML Generation
 
 While the put() function directly creates DOM elements in the browser, the put() function
 can be used to generate HTML on the server, in NodeJS. When no DOM is available, 
-a fast lightweight pseudo-DOM is created that can generate HTML as a string.
+a fast lightweight pseudo-DOM is created that can generate HTML as a string or into a stream.
 The API is still the same, but the put() function returns pseudo-elements with a 
-toString() method that can be called to return the HTML. For example:
+toString() method that can be called to return the HTML and sendTo method to direct
+generated elements to a stream on the fly. For example:
 
 	put("div.test").toString() -> '<div class="test"></div>' 
 
-We could create a full page in NodeJS:
+To use put() streaming, we create and element and call sendTo with a target stream.
+In streaming mode, the elements are written to the stream as they are added to the
+parent DOM structure. Once an element is added to the streamed DOM structure,
+it is immediately sent to the stream, and it's attributes and classes can no longer be
+altered. For example, we could create a full page in NodeJS that is streamed to the
+response:
 
 	var http = require('http');
 	var put = require('put-selector');
 	http.createServer(function (req, res) {
 		res.writeHead(200, {'Content-Type': 'text/html'});
-		var page = put('html');
-		put(page, 'head script[src=app.js]');
+		var page = put('html').sendTo(res); // create an HTML page, and pipe to the response 
+		put(page, 'head script[src=app.js]'); // each are sent immediately
 		put(page, 'body div.content', 'Hello, World');
-		res.end(page.toString());
+		page.end(); // close all the tags, and end the stream
 	}).listen(80);
 
 On the server, there are some limitations to put(). The server side DOM emulation
 is designed to be very fast and light and therefore omits much of the standard DOM
 functionality, and only what is needed for put() is implemented. Elements can
-not be moved or removed. However, DOM creation and updating is still fully supported.
+not be moved or removed. DOM creation and updating is still supported in string
+generation mode, but only creation is supported in streaming mode.
 
 Proper Creation of Inputs
 -------------------------
