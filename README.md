@@ -235,8 +235,18 @@ To use put() streaming, we create and element and call sendTo with a target stre
 In streaming mode, the elements are written to the stream as they are added to the
 parent DOM structure. Once an element is added to the streamed DOM structure,
 it is immediately sent to the stream, and it's attributes and classes can no longer be
-altered. For example, we could create a full page in NodeJS that is streamed to the
-response:
+altered. There are two methods on elements available for streaming purposes:
+
+	element.sendTo(stream)
+	
+The sendTo(stream) method will begin streaming the element to the target stream,
+and any children that are added to the element will be streamed as well.
+
+	element.end(leaveOpen) 
+
+The end(leaveOpen) method will end the current streaming, closing all the necessary
+tags and closing the stream (unless the argument is true). Here is an example of 
+how we could create a full page in NodeJS that is streamed to the response:
 
 	var http = require('http');
 	var put = require('put-selector');
