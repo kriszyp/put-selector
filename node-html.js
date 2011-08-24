@@ -11,6 +11,11 @@ var emptyElements = {};
 var prototype = Element.prototype = [];
 var currentIndentation = '';
 prototype.nodeType = 1;
+prototype.put = function(){
+	var args = [this];
+	args.push.apply(args, arguments);
+	return put.apply(null, args);
+}
 prototype.toString = function(noClose){
 	var tag = this.tag;
 	var emptyElement = emptyElements[tag];
@@ -35,6 +40,9 @@ prototype.toString = function(noClose){
 		((noClose || emptyElement) ? '' : ('</' + tag + '>')); 
 };
 prototype.sendTo = function(stream){
+	if(typeof stream == 'function'){ // write function itself
+		stream = {write: stream, end: stream};
+	}
 	var active = this;
 	var streamIndentation = '';
 	function pipe(element){
@@ -175,5 +183,8 @@ module.exports = function(putModule, putFactory){
 		test: function(){
 			return false;
 		}
-	});	
+	});
+	put.Page = function(stream){
+		return put('html').sendTo(stream);
+	};
 };

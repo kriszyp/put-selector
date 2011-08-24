@@ -247,16 +247,23 @@ and any children that are added to the element will be streamed as well.
 	element.end(leaveOpen) 
 
 The end(leaveOpen) method will end the current streaming, closing all the necessary
-tags and closing the stream (unless the argument is true). Here is an example of 
-how we could create a full page in NodeJS that is streamed to the response:
+tags and closing the stream (unless the argument is true). 
+
+The returned elements also include a put() method so you can directly add to or apply
+CSS selector-based additions to elements, for example:
+
+	element.put('div.test'); // create a &lt;div class="test">&lt;/div> as a child of element
+
+Here is an example of how we could create a full page in NodeJS that is streamed to 
+the response:
 
 	var http = require('http');
 	var put = require('put-selector');
 	http.createServer(function (req, res) {
 		res.writeHead(200, {'Content-Type': 'text/html'});
 		var page = put('html').sendTo(res); // create an HTML page, and pipe to the response 
-		put(page, 'head script[src=app.js]'); // each element is sent immediately
-		put(page, 'body div.content', 'Hello, World');
+		page.put('head script[src=app.js]'); // each element is sent immediately
+		page.put('body div.content', 'Hello, World');
 		page.end(); // close all the tags, and end the stream
 	}).listen(80);
 
