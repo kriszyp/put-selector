@@ -42,7 +42,7 @@ define([], function(){
 						(fragment = fragmentFasterHeuristic.test(argument) && doc.createDocumentFragment()))
 							// any of the above fails just use the referenceElement  
 							|| referenceElement).
-								insertBefore(current, nextSibling); // do the actual insertion
+								insertBefore(current, nextSibling || null); // do the actual insertion
 			}
 		}
 		for(var i = 0; i < args.length; i++){
@@ -52,7 +52,7 @@ define([], function(){
 					current = argument;
 					insertLastElement();
 					referenceElement = argument;
-					nextSibling = null;
+					nextSibling = 0;
 				}else{
 					// an object hash
 					for(var key in argument){
@@ -96,7 +96,7 @@ define([], function(){
 								}
 								current = null;
 							}
-							nextSibling = null;
+							nextSibling = 0;
 						}
 						if(current){
 							referenceElement = current;
