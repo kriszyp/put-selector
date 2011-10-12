@@ -40,6 +40,10 @@ console.assert(span2.nextSibling != span3); // make sure span3 is gone
 var span0 = put(span1, "-span[name=span0]");
 console.assert(span0.getAttribute("name") == "span0");
 
+var spanMinusTwo = put(span0, "-span -span");
+console.assert(spanMinusTwo.nextSibling.nextSibling == span0);
+
+
 var spanWithId = put(parent, "span#with-id");
 console.assert(spanWithId.id == "with-id");
 

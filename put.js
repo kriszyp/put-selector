@@ -11,7 +11,7 @@ define([], function(){
 	//		To create a simple div with a class name of "foo":
 	//		|	put("div.foo");
 					
-	var selectorParse = /(([-+])|[,<> ])?\s*(\.|!|#)?([-\w$]+)?(?:\[([^\]=]+)=?['"]?([^\]'"]*)['"]?\])?/g,
+	var selectorParse = /(?:\s*([-+ ,<>]))?\s*(\.|!|#)?([-\w$]+)?(?:\[([^\]=]+)=?['"]?([^\]'"]*)['"]?\])?/g,
 		fragmentFasterHeuristic = /[-+,> ]/, // if it has any of these combinators, it is probably going to be faster with a document fragment 	
 		doc, undefined;
 	try{
@@ -70,16 +70,16 @@ define([], function(){
 					topReferenceElement = null;
 				}
 				lastSelectorArg = i;
-				var leftoverCharacters = argument.replace(selectorParse, function(t, combinator, siblingCombinator, prefix, value, attrName, attrValue){
+				var leftoverCharacters = argument.replace(selectorParse, function(t, combinator, prefix, value, attrName, attrValue){
 					if(combinator){
 						// insert the last current object
 						insertLastElement();
-						if(siblingCombinator){
+						if(combinator == '-' || combinator == '+'){
 							// + or - combinator, 
 							// TODO: add support for >- as a means of indicating before the first child?
 							referenceElement = (nextSibling = (current || referenceElement)).parentNode;
 							current = null;
-							if(siblingCombinator == "+"){
+							if(combinator == "+"){
 								nextSibling = nextSibling.nextSibling;
 							}// else a - operator, again not in CSS, but obvious in it's meaning (create next element before the current/referenceElement)
 						}else{
