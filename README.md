@@ -130,6 +130,8 @@ should go before:
 	newSpan = put(reference, "-span");
 
 This new span element will be inserted before the reference element in the DOM order.
+Note that "-" is valid character in tags and classes, so it will only be interpreted as a
+combinator if it is the first character or if it is preceded by a space.
 
 The sibling operator can reference the last created element as well. For example
 to add two td element to a table row:
@@ -176,7 +178,7 @@ the "second" element after (as the next sibling) the "first" element:
 
 Or we could create a &lt;div> and place "first" before it using the previous sibling combinator:
 
-	put(parent, "div.second-", first);
+	put(parent, "div.second -", first);
 
 The put() function takes an unlimited number of arguments, so we could combine as
 many selectors and elements as we want: 
