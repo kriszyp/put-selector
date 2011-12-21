@@ -191,7 +191,6 @@ define([], function(){
 	if(typeof window == "undefined"){
 		// server side JavaScript, probably (hopefully) NodeJS
 		require("./node-html")(module, factory);
-//		module.exports = factory();
 	}else{
 		// plain script in a browser
 		put = factory();
