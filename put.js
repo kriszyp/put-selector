@@ -21,7 +21,6 @@ define([], function(){
 		ieCreateElement = 0;
 	}
 	function forDocument(doc, fragmentFasterHeuristic){
-		fragmentFasterHeuristic = fragmentFasterHeuristic || /[-+,> ]/; // if it has any of these combinators, it is probably going to be faster with a document fragment 
 		function insertTextNode(element, text){
 			element.appendChild(doc.createTextNode(text));
 		}
@@ -181,10 +180,12 @@ define([], function(){
 			return returnValue;
 		}
 		put.defaultTag = "div";
-		put.forDocument = forDocument;
+		put.forDocument = function(doc, newFragmentFasterHeuristic){
+			return forDocument(doc, newFragmentFasterHeuristic || fragmentFasterHeuristic);
+		};
 		return put;
 	}
-	return forDocument(doc);
+	return forDocument(doc, /[-+,> ]/); // if it has any of these combinators, it is probably going to be faster with a document fragment
 });
 })(typeof define == "undefined" ? function(deps, factory){
 	if(typeof window == "undefined"){
