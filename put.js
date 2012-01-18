@@ -48,6 +48,7 @@ define([], function forDocument(doc, newFragmentFasterHeuristic){
 		for(var i = 0; i < args.length; i++){
 			var argument = args[i];
 			if(typeof argument == "object"){
+				lastSelectorArg = false;
 				if(argument.nodeType){
 					current = argument;
 					insertLastElement();
@@ -59,17 +60,18 @@ define([], function forDocument(doc, newFragmentFasterHeuristic){
 						current[key] = argument[key];
 					}				
 				}
-			}else if(lastSelectorArg === i - 1){
+			}else if(lastSelectorArg){
 				// a text node should be created
 				// take a scalar value, use createTextNode so it is properly escaped
 				// createTextNode is generally several times faster than doing an escaped innerHTML insertion: http://jsperf.com/createtextnode-vs-innerhtml/2
+				lastSelectorArg = false;
 				insertTextNode(current, argument);
 			}else{
 				if(i < 1){
 					// if we are starting with a selector, there is no top element
 					topReferenceElement = null;
 				}
-				lastSelectorArg = i;
+				lastSelectorArg = true;
 				var leftoverCharacters = argument.replace(selectorParse, function(t, combinator, prefix, value, attrName, attrValue){
 					if(combinator){
 						// insert the last current object
