@@ -1,6 +1,6 @@
 (function(define){
-var fragmentFasterHeuristic = /[-+,> ]/; // if it has any of these combinators, it is probably going to be faster with a document fragment 
-define([], function forDocument(doc, newFragmentFasterHeuristic){
+var forDocument, fragmentFasterHeuristic = /[-+,> ]/; // if it has any of these combinators, it is probably going to be faster with a document fragment 
+define([], forDocument = function(doc, newFragmentFasterHeuristic){
 "use strict";
 	// module:
 	//		put-selector/put
