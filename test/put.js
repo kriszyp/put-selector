@@ -65,4 +65,10 @@ var checkbox = put(div, "input[type=checkbox][checked]");
 console.assert(checkbox.type == "checkbox");
 console.assert(checkbox.getAttribute("checked") == "checked");
 
+var div = put("div");
+var arrayFrag = put(div, ["span.c1", "span.c2", "span.c3"]);
+console.assert(arrayFrag.nodeType == 11);
+console.assert(div.firstChild.className == "c1");
+console.assert(div.lastChild.className == "c3");
+
 put(body, "div", {innerHTML: "finished tests, check console for errors"});
