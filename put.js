@@ -13,7 +13,7 @@ define([], forDocument = function(doc, newFragmentFasterHeuristic){
 	//		|	put("div.foo");
 	fragmentFasterHeuristic = newFragmentFasterHeuristic || fragmentFasterHeuristic;
 	try{
-		var selectorParse = /(?:\s*([-+ ,<>]))?\s*(\.|!\.?|#)?([-\w$]+)?(?:\[([^\]=]+)=?['"]?([^\]'"]*)['"]?\])?/g,
+		var selectorParse = /(?:\s*([-+ ,<>]))?\s*(\.|!\.?|#)?([-\w%$]+)?(?:\[([^\]=]+)=?['"]?([^\]'"]*)['"]?\])?/g,
 			undefined, 
 			doc = doc || document,
 			ieCreateElement = 1;
