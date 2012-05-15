@@ -49,6 +49,14 @@ define([], forDocument = function(doc, newFragmentFasterHeuristic){
 			var argument = args[i];
 			if(typeof argument == "object"){
 				lastSelectorArg = false;
+				if(argument instanceof Array){
+					// an array
+					returnValue = doc.createDocumentFragment();
+					for(var key = 0; key < argument.length; key++){
+						returnValue.appendChild(put(argument[key]));
+					}
+					argument = returnValue;
+				}
 				if(argument.nodeType){
 					current = argument;
 					insertLastElement();
