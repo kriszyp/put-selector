@@ -23,5 +23,6 @@
     "lib": "."
   },
   "main": "./put",
-  "icon": "http://packages.dojofoundation.org/images/xstyle.jpg"
+  "icon": "http://packages.dojofoundation.org/images/xstyle.jpg",
+  "dojoBuild": "package.js"
 }
