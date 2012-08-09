@@ -1,5 +1,6 @@
 var div = put("div");
 console.assert(div.tagName.toLowerCase() == "div");
+console.assert(put(div) === div);
 
 var body = document.body;
 put(body, "h1 $", "Running put() tests");
