@@ -52,11 +52,11 @@ define([], forDocument = function(doc, newFragmentFasterHeuristic){
 				lastSelectorArg = false;
 				if(argument instanceof Array){
 					// an array
-					returnValue = doc.createDocumentFragment();
+					current = doc.createDocumentFragment();
 					for(var key = 0; key < argument.length; key++){
-						returnValue.appendChild(put(argument[key]));
+						current.appendChild(put(argument[key]));
 					}
-					argument = returnValue;
+					argument = current;
 				}
 				if(argument.nodeType){
 					current = argument;
