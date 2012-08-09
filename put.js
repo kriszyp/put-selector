@@ -62,6 +62,7 @@ define([], forDocument = function(doc, newFragmentFasterHeuristic){
 					insertLastElement();
 					referenceElement = argument;
 					nextSibling = 0;
+					returnValue = referenceElement;
 				}else{
 					// an object hash
 					for(var key in argument){
