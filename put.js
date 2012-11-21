@@ -14,8 +14,12 @@ define([], forDocument = function(doc, newFragmentFasterHeuristic){
 	fragmentFasterHeuristic = newFragmentFasterHeuristic || fragmentFasterHeuristic;
 	var selectorParse = /(?:\s*([-+ ,<>]))?\s*(\.|!\.?|#)?([-\w%$]+)?(?:\[([^\]=]+)=?['"]?([^\]'"]*)['"]?\])?/g,
 		undefined,
-		doc = doc || document,
-		ieCreateElement = typeof doc.createElement == "object"; // telltale sign of the old IE behavior with createElement that does not support later addition of name 
+		ieCreateElement;
+	if(typeof window != "undefined"){
+		doc = doc || document;
+	}
+	ieCreateElement = doc && typeof doc.createElement == "object"; // telltale sign of the old IE behavior with createElement that does not support later addition of name 
+
 	function insertTextNode(element, text){
 		element.appendChild(doc.createTextNode(text));
 	}
