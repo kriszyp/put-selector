@@ -75,4 +75,7 @@ console.assert(div.lastChild.className == "c3");
 put(div, "#encode%3A%20d");
 console.assert(div.id == "encode%3A%20d");
 
+var styled = put("div.someClass[style=color:green;margin-left:10px]");
+console.assert(styled.style.marginLeft.slice(0,2) == "10");
+
 put(body, "div", {innerHTML: "finished tests, check console for errors"});
