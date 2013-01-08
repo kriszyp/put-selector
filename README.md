@@ -92,7 +92,21 @@ To delete an element, we can simply use the "!" operator by itself as the entire
 
 	put(elementToDelete, "!");
 
-This will destroy the element from the DOM (using parent innerHTML destruction that reduces memory leaks in IE). 
+This will destroy the element from the DOM, using either parent innerHTML destruction (IE only, that 
+reduces memory leaks in IE), or removeChild (for all other browsers).
+
+Creating/Modifying Elements with XML Namespaces
+-----------
+
+To work with elements and attributes that are XML namespaced, start by adding the namespace using addNamespace:
+
+	put.addNamespace("svg", "http://www.w3.org/2000/svg");
+	put.addNamespace("xlink", "http://www.w3.org/1999/xlink");
+
+From there, you can use the CSS3 selector syntax to work with elements and attributes:
+
+	var surface = put("svg|svg[width='100'][height='100']");
+	var img = put(surface, "svg|image[xlink|href='path/to/my/image.png']");
 
 Text Content
 -----------
