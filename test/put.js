@@ -88,5 +88,9 @@ if(document.createElementNS){
 	console.assert(namespaced.getAttributeNS("http://github.com/kriszyp/dgrid","bar") == "test2");
 }
 
+put.addNamespace("svg", "http://www.w3.org/2000/svg");
+var svg = put(document.body, "svg:svg#svg-test");
+put(svg, "!");
+console.assert(document.getElementById("svg-test") == null);
 
 put(body, "div", {innerHTML: "finised tests, check console for errors"});

@@ -146,9 +146,15 @@ define([], forDocument = function(doc, newFragmentFasterHeuristic){
 							}else{
 								// else a '!' class removal
 								if(argument == "!"){
+									var parentNode;
 									// special signal to delete this element
-									// use the ol' innerHTML trick to get IE to do some cleanup
-									put("div", current, '<').innerHTML = "";
+									if(ieCreateElement){
+										// use the ol' innerHTML trick to get IE to do some cleanup
+										put("div", current, '<').innerHTML = "";
+									}else if(parentNode = current.parentNode){ // intentional assigment
+										// use a faster, and more correct (for namespaced elements) removal (http://jsperf.com/removechild-innerhtml)
+										parentNode.removeChild(current);
+									}
 								}else{
 									// we already have removed the class, just need to trim
 									removed = removed.substring(1, removed.length - 1);
