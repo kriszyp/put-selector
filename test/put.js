@@ -80,7 +80,7 @@ console.assert(styled.style.marginLeft.slice(0,2) == "10");
 
 
 put.addNamespace("put", "http://github.com/kriszyp/dgrid");
-var namespaced = put("put:foo[bar=test1][put:bar=test2]");
+var namespaced = put("put|foo[bar=test1][put|bar=test2]");
 console.assert((namespaced.namespaceURI || namespaced.tagUrn) == "http://github.com/kriszyp/dgrid");
 console.assert(namespaced.tagName == "foo");
 console.assert(namespaced.getAttribute("bar") == "test1");
@@ -89,7 +89,7 @@ if(document.createElementNS){
 }
 
 put.addNamespace("svg", "http://www.w3.org/2000/svg");
-var svg = put(document.body, "svg:svg#svg-test");
+var svg = put(document.body, "svg|svg#svg-test");
 put(svg, "!");
 console.assert(document.getElementById("svg-test") == null);
 
