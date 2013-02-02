@@ -3,6 +3,8 @@ var miniExcludes = {
 		"put-selector/package": 1
 	},
 	amdExcludes = {
+	},
+	copyOnly = {
 		"put-selector/node-html": 1
 	},
 	isTestRe = /\/test\//;
@@ -19,6 +21,10 @@ var profile = {
 
 		amd: function(filename, mid){
 			return /\.js$/.test(filename) && !(mid in amdExcludes);
+		},
+
+		copyOnly: function(filename, mid){
+			return mid in copyOnly;
 		}
 	}
 };
