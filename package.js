@@ -7,6 +7,7 @@ var miniExcludes = {
 	copyOnly = {
 		"put-selector/node-html": 1
 	},
+	isJsRe = /\.js$/,
 	isTestRe = /\/test\//;
 
 var profile = {
@@ -20,7 +21,7 @@ var profile = {
 		},
 
 		amd: function(filename, mid){
-			return /\.js$/.test(filename) && !(mid in amdExcludes);
+			return isJsRe.test(filename) && !(mid in amdExcludes);
 		},
 
 		copyOnly: function(filename, mid){
