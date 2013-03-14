@@ -211,12 +211,18 @@ define([], forDocument = function(doc, newFragmentFasterHeuristic){
 	put.forDocument = forDocument;
 	return put;
 });
-})(typeof define == "undefined" ? function(deps, factory){
-	if(typeof window == "undefined"){
+})(function(id, deps, factory){
+	factory = factory || deps;
+	if(typeof define != "undefined"){
+		// AMD loader
+		define([], function(){
+			return factory();
+		});
+	}else if(typeof window == "undefined"){
 		// server side JavaScript, probably (hopefully) NodeJS
 		require("./node-html")(module, factory);
 	}else{
 		// plain script in a browser
 		put = factory();
 	}
-} : define);
+});
