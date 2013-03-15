@@ -1,5 +1,5 @@
 This put-selector/put module/package provides a high-performance, lightweight 
-(~1.5KB minified, ~0.7KB gzipped with other code) function for creating 
+(~2KB minified, ~1KB gzipped with other code) function for creating 
 and manipulating DOM elements with succinct, elegant, familiar CSS selector-based 
 syntax across all browsers and platforms (including HTML generation on NodeJS). 
 The single function from the module creates or updates DOM elements by providing
@@ -54,8 +54,10 @@ and the type attribute set to "checkbox". The attribute assignment will always u
 setAttribute to assign the attribute to the element. Multiple attributes and classes
 can be assigned to a single element. 
 
-The put function returns the last top level element created or referenced. In the 
-examples above, the newly create element would be returned.
+The put function returns the last top level element created or referenced from a selector. In the 
+examples above, the newly create element would be returned. Note that passing in
+an existing node will not change the return value (as it is assumed you already have a
+reference to it).
 
 Modifying Elements
 ----------------
@@ -186,7 +188,8 @@ Or we can do a simple append of an existing element to another element:
 	put(parent, ">", child);
 
 We could also use sibling combinators to place the referenced element. We could place
-the "second" element after (as the next sibling) the "first" element:
+the "second" element after (as the next sibling) the "first" element (which needs a parent
+in order to have a sibling):
  
 	put(first, "+", second);
 
