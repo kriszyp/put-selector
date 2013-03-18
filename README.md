@@ -54,10 +54,11 @@ and the type attribute set to "checkbox". The attribute assignment will always u
 setAttribute to assign the attribute to the element. Multiple attributes and classes
 can be assigned to a single element. 
 
-The put function returns the last top level element created or referenced from a selector. In the 
-examples above, the newly create element would be returned. Note that passing in
-an existing node will not change the return value (as it is assumed you already have a
-reference to it).
+The put function returns the last top level element created or referenced from a selector. 
+In the examples above, the newly create element would be returned. Note that passing 
+in an existing node will not change the return value (as it is assumed you already have 
+a reference to it). Also note that if you only pass existing nodes reference, the first 
+passed reference will be returned.
 
 Modifying Elements
 ----------------
@@ -184,6 +185,11 @@ the "child" element to the new &lt;div>:
 	put("div", child);
 
 Or we can do a simple append of an existing element to another element:
+
+	put(parent, child);
+
+We could also do this more explicitly by using a child descendant, '>' (which has the
+same meaning as a space operator, and is the default action between arguments in put-selector):
 
 	put(parent, ">", child);
 
