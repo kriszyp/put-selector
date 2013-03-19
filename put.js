@@ -213,7 +213,7 @@ define([], forDocument = function(doc, newFragmentFasterHeuristic){
 });
 })(function(id, deps, factory){
 	factory = factory || deps;
-	if(typeof define === "function" && define.amd){
+	if(typeof define === "function"){
 		// AMD loader
 		define([], function(){
 			return factory();
