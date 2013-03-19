@@ -20,10 +20,6 @@ var profile = {
 			return isTestRe.test(filename) || mid in miniExcludes;
 		},
 
-		amd: function(filename, mid){
-			return isJsRe.test(filename) && !(mid in amdExcludes);
-		},
-
 		copyOnly: function(filename, mid){
 			return mid in copyOnly;
 		}
