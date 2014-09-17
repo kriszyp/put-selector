@@ -93,4 +93,7 @@ var svg = put(document.body, "svg|svg#svg-test");
 put(svg, "!");
 console.assert(document.getElementById("svg-test") == null);
 
+var unicode = put("div.unicode-你好");
+console.assert(unicode.className === "unicode-你好");
+
 put(body, "div", {innerHTML: "finished tests, check console for errors"});
