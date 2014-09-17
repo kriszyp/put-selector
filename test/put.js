@@ -94,3 +94,6 @@ put(svg, "!");
 console.assert(document.getElementById("svg-test") == null);
 
 put(body, "div", {innerHTML: "finished tests, check console for errors"});
+
+var unicodeId = put(body, "div#ÅÄÖ");
+console.assert(unicodeId.id === "ÅÄÖ");
