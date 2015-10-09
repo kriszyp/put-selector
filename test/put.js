@@ -64,7 +64,7 @@ console.assert(table.lastChild.childNodes.length == 2);
 
 var checkbox = put(div, "input[type=checkbox][checked]");
 console.assert(checkbox.type == "checkbox");
-console.assert(checkbox.getAttribute("checked") == "checked");
+console.assert(checkbox.hasAttribute("checked"));
 
 var div = put("div");
 var arrayFrag = put(div, ["span.c1", "span.c2", "span.c3"]);
