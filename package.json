@@ -19,6 +19,10 @@
   		"email": "kriszyp@gmail.com"
   	}
   ],
+  "repository": {
+    "type":"git",
+    "url":"http://github.com/kriszyp/put-selector"
+  },
   "directories": {
     "lib": "."
   },
