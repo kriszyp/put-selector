@@ -1,6 +1,6 @@
-(function(define){
+(function(localDefine){
 var forDocument, fragmentFasterHeuristic = /[-+,> ]/; // if it has any of these combinators, it is probably going to be faster with a document fragment 
-define([], forDocument = function(doc, newFragmentFasterHeuristic){
+localDefine([], forDocument = function(doc, newFragmentFasterHeuristic){
 "use strict";
 	// module:
 	//		put-selector/put
@@ -177,7 +177,6 @@ define([], forDocument = function(doc, newFragmentFasterHeuristic){
 							current.style.cssText = attrValue;
 						}else{
 							var method = attrName.charAt(0) == "!" ? (attrName = attrName.substring(1)) && 'removeAttribute' : 'setAttribute';
-							attrValue = attrValue === '' ? attrName : attrValue;
 							// determine if we need to use a namespace
 							namespaces && ~(namespaceIndex = attrName.indexOf('|')) ?
 								current[method + "NS"](namespaces[attrName.slice(0, namespaceIndex)], attrName.slice(namespaceIndex + 1), attrValue) :
