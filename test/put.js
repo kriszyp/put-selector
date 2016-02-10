@@ -75,6 +75,12 @@ console.assert(div.lastChild.className == "c3");
 put(div, "#encode%3A%20d");
 console.assert(div.id == "encode%3A%20d");
 
+put(div, "[title='with single \\' quote']");
+console.assert(div.title, "with single ' quote");
+
+put(div, "[title='[brackets]']");
+console.assert(div.title, "[brackets]");
+
 var styled = put("div.someClass[style=color:green;margin-left:10px]");
 console.assert(styled.style.marginLeft.slice(0,2) == "10");
 

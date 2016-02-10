@@ -12,7 +12,7 @@ localDefine([], forDocument = function(doc, newFragmentFasterHeuristic){
 	//		To create a simple div with a class name of "foo":
 	//		|	put("div.foo");
 	fragmentFasterHeuristic = newFragmentFasterHeuristic || fragmentFasterHeuristic;
-	var selectorParse = /(?:\s*([-+ ,<>]))?\s*(\.|!\.?|#)?([-\w\u00A0-\uFFFF%$|]+)?(?:\[([^\]=]+)=?['"]?([^\]'"]*)['"]?\])?/g,
+	var selectorParse = /(?:\s*([-+ ,<>]))?\s*(\.|!\.?|#)?([-\w\u00A0-\uFFFF%$|]+)?(?:\[([^\]=]+)=?('(?:\\.|[^'])*'|"(?:\\.|[^"])*"|[^\]]*)\])?/g,
 		undefined, namespaceIndex, namespaces = false,
 		doc = doc || document,
 		ieCreateElement = typeof doc.createElement == "object"; // telltale sign of the old IE behavior with createElement that does not support later addition of name 
@@ -170,6 +170,10 @@ localDefine([], forDocument = function(doc, newFragmentFasterHeuristic){
 					if(attrName){
 						if(attrValue == "$"){
 							attrValue = args[++i];
+						}
+						if(attrValue && (attrValue.charAt(0) === '"') || (attrValue.charAt(0) === "'")) {
+							// quoted string
+							attrValue = attrValue.slice(1, -1).replace(/\\/g, '')
 						}
 						// [name=value]
 						if(attrName == "style"){
