@@ -33,6 +33,9 @@ put(span2, "+", span3, "+", span4);
 console.assert(span2.nextSibling == span3);
 console.assert(span3.nextSibling == span4);
 
+var div = put('div[title=$]', 4)
+console.assert(div.title, '4')
+
 var parentDiv = put("div.parent span.first $ + span.second $<", "inside first", "inside second");
 console.assert(parentDiv.firstChild.innerHTML, "inside first");
 console.assert(parentDiv.lastChild.innerHTML, "inside second");
@@ -66,7 +69,7 @@ var checkbox = put(div, "input[type=checkbox][checked]");
 console.assert(checkbox.type == "checkbox");
 console.assert(checkbox.hasAttribute("checked"));
 
-var div = put("div");
+div = put("div");
 var arrayFrag = put(div, ["span.c1", "span.c2", "span.c3"]);
 console.assert(arrayFrag.tagName.toLowerCase() == "div");
 console.assert(div.firstChild.className == "c1");
