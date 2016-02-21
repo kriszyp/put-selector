@@ -2,8 +2,9 @@
 var put;
 function Element(tag){
 	this.tag = tag;
+	this.style = {};
 }
-// create set of elements with an empty content model, so we now to skip their closing tag
+// create set of elements with an empty content model, so we know to skip their closing tag
 var emptyElements = {};
 ["base", "link", "meta", "hr", "br", "wbr", "img", "embed", "param", "source", "track", "area", "col", "input", "keygen", "command"].forEach(function(tag){
 	emptyElements[tag] = true;
@@ -25,7 +26,9 @@ prototype.toString = function(noClose){
 		currentIndentation += put.indentation;
 		var html = (tag == 'html' ? '<!DOCTYPE html>\n<html' : '\n' + lastIndentation + '<' + tag) +
 			(this.attributes ? this.attributes.join('') : '') + 
-			(this.className ? ' class="' + this.className + '"' : '') + '>' +  
+			(this.className ? ' class="' + this.className + '"' : '') + 
+			(this.id ? ' id="' + this.id + '"' : '') + 
+			(this.style.cssText ? ' style="' + this.style.cssText + '"' : '') + '>' +  
 			(this.children ? this.children.join('') : '') +  
 			(!this.mixed && !emptyElement  && this.children ? '\n' +lastIndentation : '') +
 			(emptyElement ? '' : ('</' + tag + '>'));
@@ -35,7 +38,9 @@ prototype.toString = function(noClose){
 	}
 	return (this.tag == 'html' ? '<!DOCTYPE html>\n<html' : '<' + this.tag) +
 		(this.attributes ? this.attributes.join('') : '') + 
-		(this.className ? ' class="' + this.className + '"' : '') + '>' +  
+		(this.className ? ' class="' + this.className + '"' : '') + 
+		(this.id ? ' id="' + this.id + '"' : '') +
+		(this.style.cssText ? ' style="' + this.style.cssText + '"' : '') + '>' +  
 		(this.children ? this.children.join('') : '') +  
 		((noClose || emptyElement) ? '' : ('</' + tag + '>')); 
 };
